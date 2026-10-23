@@ -1,23 +1,38 @@
 # NPtodo AI
 
-Dark, responsive AI task manager built with Next.js, Supabase, and the OpenAI API.
+A responsive dark-mode task manager starter built with Next.js, Supabase Auth/Postgres, and the OpenAI Responses API.
 
-## Features
-- Supabase email/password authentication and per-user task storage
-- Create, edit, complete, and delete tasks
-- AI scheduling with review-first and automatic modes
-- Calendar-style task agenda and progress metrics
-- Browser reminders while the app is open
-- Installable PWA shell
+## Included
+- Add, complete, and delete tasks, categories, priorities, and estimates
+- Supabase email/password sign-up and sign-in
+- AI daily-plan suggestions through a server-side API route
+- Progress snapshot and estimated remaining focus time
+- PWA manifest, icon, and basic offline app-shell fallback
+- Supabase Row Level Security policies
 
-## Setup (Windows 11)
-1. Install Node.js LTS from https://nodejs.org/.
+## Run on Windows 11
+1. Install Node.js LTS and open this repository in VS Code.
 2. Create a Supabase project at https://supabase.com/.
-3. Run `supabase/schema.sql` in the Supabase SQL Editor.
-4. Copy `.env.example` to `.env.local` and add your Supabase URL, Supabase publishable key, and OpenAI API key.
-5. Run `npm install` and `npm run dev`.
-6. Open http://localhost:3000.
+3. In Supabase SQL Editor, run `supabase/schema.sql`.
+4. Copy `.env.example` to `.env.local`.
+5. Fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from your Supabase project.
+6. Create an OpenAI API key in the OpenAI developer platform and set `OPENAI_API_KEY` and optionally `OPENAI_MODEL=gpt-4.1-mini` in `.env.local`.
+7. In the repository folder, run:
 
-Keep `.env.local` private. Never expose `OPENAI_API_KEY` in browser code. OpenAI API usage may cost money independently of a ChatGPT subscription.
+   ```powershell
+   npm install
+   npm run dev
+   ```
 
-This is a starter project; run `npm run build` and review security, timezone handling, and notifications before production deployment.
+8. Open http://localhost:3000. If email confirmation is enabled, confirm your account. Add localhost to Supabase Auth's allowed redirect URLs.
+
+## Deploy
+Import this repository into Vercel and configure the same environment variables in project settings. Add the deployed HTTPS URL to Supabase Auth's allowed redirect URLs.
+
+## Security and scope notes
+- Never commit `.env.local`; never expose `OPENAI_API_KEY` to browser code.
+- OpenAI API usage is billed separately from a ChatGPT subscription. Configure usage limits before testing.
+- AI plans are suggestions and should be reviewed.
+- The current AI endpoint requires a signed-in Supabase session. Add server-side rate limiting and request-size limits before production.
+- Browser reminders/background push, recurring schedules, editing tasks, and full offline task syncing are not implemented in this starter.
+- This project has not yet been verified with a complete production build. Run `npm install` and `npm run build` locally and resolve any errors before deploying.
